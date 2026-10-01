@@ -7,7 +7,7 @@ from sqlalchemy import text
 
 from .db import engine
 from .logging_conf import setup_logging
-from .routers import auth, users
+from .routers import auth,requests, users
 
 setup_logging()
 logger = logging.getLogger("app.request")
@@ -17,6 +17,7 @@ app = FastAPI(title="Dataset Request Desk")
 ROUTERS = (
     auth.router,
     users.router,
+    requests.router,
 )
 for router in ROUTERS:
     app.include_router(router)
