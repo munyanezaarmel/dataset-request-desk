@@ -7,7 +7,8 @@ from sqlalchemy import text
 
 from .db import engine
 from .logging_conf import setup_logging
-from .routers import assignments, auth, episodes, requests, users
+from .routers import assignments, auth, episodes, imports, requests, users
+
 
 
 setup_logging()
@@ -21,6 +22,7 @@ ROUTERS = (
     requests.router,
     assignments.router,
     episodes.router,
+    imports.router,
 )
 for router in ROUTERS:
     app.include_router(router)

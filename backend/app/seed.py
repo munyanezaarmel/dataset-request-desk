@@ -1,15 +1,18 @@
-"""Create the seed users. Safe to run many times: existing users are left alone."""
+"""Create the seed users (and load the sample episodes on an empty database).
+Safe to run many times: existing users are left alone."""
 import json
 import logging
+import os
 from pathlib import Path
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 
 from .config import settings
 from .db import SessionLocal
 from .logging_conf import setup_logging
-from .models import User
+from .models import Episode, User
 from .security import hash_password
+from .services.importer import import_episodes
 
 logger = logging.getLogger("app.seed")
 
@@ -42,6 +45,14 @@ def main() -> None:
             created += 1
         db.commit()
         logger.info("seed users", extra={"fields": {"created": created}})
+
+        csv_path = seed_dir / "episodes.csv"
+        if csv_path.exists() and db.scalar(select(func.count()).select_from(Episode)) == 0:
+            report = import_episodes(db, csv_path.read_bytes())
+            logger.info(
+                "seed episodes",
+                extra={"fields": {"imported": report["imported"], "skipped": report["skipped"]}},
+            )
 
 
 if __name__ == "__main__":
