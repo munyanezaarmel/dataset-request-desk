@@ -99,3 +99,14 @@ class RequestDetail(RequestOut):
 
 class TransitionIn(BaseModel):
     to_status: Status
+class EpisodeListItem(EpisodeOut):
+    assigned_request_id: int | None
+
+
+class EpisodeList(BaseModel):
+    items: list[EpisodeListItem]
+    total: int
+
+
+class AssignIn(BaseModel):
+    episode_ids: list[str] = Field(min_length=1, max_length=500)
