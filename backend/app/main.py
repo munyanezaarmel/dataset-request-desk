@@ -7,11 +7,19 @@ from sqlalchemy import text
 
 from .db import engine
 from .logging_conf import setup_logging
+from .routers import auth, users
 
 setup_logging()
 logger = logging.getLogger("app.request")
 
 app = FastAPI(title="Dataset Request Desk")
+
+ROUTERS = (
+    auth.router,
+    users.router,
+)
+for router in ROUTERS:
+    app.include_router(router)
 
 
 @app.middleware("http")
@@ -32,11 +40,18 @@ async def log_requests(request: Request, call_next):
                     "path": request.url.path,
                     "status": status,
                     "duration_ms": round((time.perf_counter() - start) * 1000, 1),
-                    # Step 3 will set request.state.user_id after login.
+                    # set by get_current_user() once the caller is authenticated
                     "user_id": getattr(request.state, "user_id", None),
                 }
             },
         )
+
+
+@app.exception_handler(Exception)
+async def unhandled_error(request: Request, exc: Exception):
+    """Anything unexpected: log the full traceback, tell the client nothing internal."""
+    logging.getLogger("app.error").exception("unhandled error")
+    return JSONResponse({"detail": "Internal server error"}, status_code=500)
 
 
 @app.get("/health")

@@ -15,9 +15,10 @@ services:
 
   backend:
     build: ./backend
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --no-access-log --reload
+    command: ["sh", "start.sh", "--reload"]   # migrate, seed, then serve (auto-reload for development)
     environment:
       DATABASE_URL: postgresql+psycopg://app:app@db:5432/dataset_desk
+      JWT_SECRET: dev-only-change-me-in-production
     volumes:
       - ./backend:/app
       - ./seed:/seed:ro
