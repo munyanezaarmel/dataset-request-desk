@@ -64,8 +64,9 @@ All four analytics queries run inside PostgreSQL; the API never loads episodes i
   (one row per status change), so it stays fast.
 - **How I would check:** `EXPLAIN ANALYZE`, using `seed/generate_episodes.py` to generate a large file.
 
-**Live demo:** https://<your-web>.onrender.com
+**Live demo:** https://dataset-desk-web.onrender.com
 > Free hosting: the demo sleeps when idle, so the first load can take 1-2 minutes.
+> Demo logins: client-a@example.com / client123, ops1@example.com / ops123.
 
 ## Design notes
 
