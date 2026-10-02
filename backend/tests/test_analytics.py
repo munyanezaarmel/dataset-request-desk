@@ -76,3 +76,4 @@ def test_analytics_is_staff_only(client, H):
     assert client.get("/analytics").status_code == 401
     assert client.get("/analytics", headers=H["client_a"]).status_code == 403
     assert client.get("/analytics", headers=H["admin"]).status_code == 200
+    

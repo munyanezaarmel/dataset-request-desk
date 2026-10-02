@@ -81,3 +81,4 @@ def test_unknown_status_value_is_a_validation_error(client, H, make_request):
     rid = make_request("client_a")
     r = client.post(f"/requests/{rid}/transition", json={"to_status": "banana"}, headers=H["ops"])
     assert r.status_code == 422
+    

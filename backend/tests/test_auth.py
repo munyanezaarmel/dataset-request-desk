@@ -70,3 +70,4 @@ def test_log_line_contains_user_id_when_authenticated(client, H, caplog):
 
 def test_health(client):
     assert client.get("/health").json() == {"status": "ok"}
+    

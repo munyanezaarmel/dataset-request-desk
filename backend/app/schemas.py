@@ -110,3 +110,4 @@ class EpisodeList(BaseModel):
 
 class AssignIn(BaseModel):
     episode_ids: list[str] = Field(min_length=1, max_length=500)
+    
