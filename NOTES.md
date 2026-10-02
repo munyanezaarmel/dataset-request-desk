@@ -62,6 +62,8 @@ one-line commands.
 
 - **Passwords:** hashed with bcrypt (per-user salt); login always runs one bcrypt check so timing
   does not reveal which emails exist. Seed passwords exist in plain text only in the dev seed file.
+  The public demo is seeded with those same development accounts, so its data is disposable; a real
+  deployment would create accounts with strong, private passwords.
 - **Tokens:** signed JWT (HS256), 60 minutes. The user is loaded from the database on every
   request, so deactivating a user takes effect immediately.
 - **Validation:** Pydantic schemas on every input plus CHECK/UNIQUE constraints in the database.

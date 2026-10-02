@@ -2,6 +2,10 @@
 
 Internal platform for Neotix: clients request robot-teleoperation datasets, operators fulfil them
 by assigning episodes, clients accept or reject the delivery.
+**Live demo:** https://dataset-desk-web.onrender.com
+> Free hosting: the demo sleeps when idle, so the first load can take 1-2 minutes.
+> Demo logins: client-a@example.com / client123, ops1@example.com / ops123.
+
 
 **Stack:** FastAPI + SQLAlchemy + Alembic + PostgreSQL (backend), Next.js + TypeScript (frontend), Docker Compose.
 
@@ -63,10 +67,6 @@ All four analytics queries run inside PostgreSQL; the API never loads episodes i
 - **Median delivery time** reads the status-history table, which has far fewer rows than episodes
   (one row per status change), so it stays fast.
 - **How I would check:** `EXPLAIN ANALYZE`, using `seed/generate_episodes.py` to generate a large file.
-
-**Live demo:** https://dataset-desk-web.onrender.com
-> Free hosting: the demo sleeps when idle, so the first load can take 1-2 minutes.
-> Demo logins: client-a@example.com / client123, ops1@example.com / ops123.
 
 ## Design notes
 
