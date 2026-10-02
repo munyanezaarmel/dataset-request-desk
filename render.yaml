@@ -1,0 +1,31 @@
+databases:
+  - name: dataset-desk-db
+    plan: free
+    databaseName: dataset_desk
+    user: app
+
+services:
+  - type: web
+    name: dataset-desk-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile.deploy
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dataset-desk-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+
+  - type: web
+    name: dataset-desk-web
+    runtime: docker
+    plan: free
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    envVars:
+      - key: API_URL
+        sync: false

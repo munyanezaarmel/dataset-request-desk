@@ -61,7 +61,7 @@ async def unhandled_error(request: Request, exc: Exception):
     return JSONResponse({"detail": "Internal server error"}, status_code=500)
 
 
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"])  # HEAD too: uptime monitors often use it
 def health():
     """Liveness + database check. 200 = fine, 503 = database unreachable."""
     try:

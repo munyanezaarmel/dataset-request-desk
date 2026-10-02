@@ -70,4 +70,8 @@ def test_log_line_contains_user_id_when_authenticated(client, H, caplog):
 
 def test_health(client):
     assert client.get("/health").json() == {"status": "ok"}
-    
+
+
+def test_health_also_answers_head_requests(client):
+    # uptime monitors often probe with HEAD
+    assert client.head("/health").status_code == 200
